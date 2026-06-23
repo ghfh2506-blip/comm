@@ -110,12 +110,12 @@ function initMorphingText() {
 
   const texts = [
     "∑AI V4 pro",
-    "VPX Collective",
-    "7 Tracks",
-    "Research System",
-    "Builder Network",
-    "Advisory Pilots",
-    "Career Studio",
+    "Capital Signals",
+    "7 Sectors",
+    "Market Memory",
+    "Thesis Network",
+    "Advisory Mandates",
+    "Memo Studio",
   ];
   let index = 0;
   let isMorphing = false;
