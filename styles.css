@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --ink: #050505;
   --muted: #5f666d;
   --soft: #eef0f2;
@@ -415,7 +415,7 @@ button {
 }
 
 .split-section,
-.statement-section,
+.vision-layout,
 .mission-layout,
 .whitepaper-layout,
 .advisory-layout,
@@ -633,7 +633,6 @@ p {
 }
 
 .role-stack span,
-.principle-marquee span,
 .review-card span {
   color: var(--muted);
   font-size: 13px;
@@ -674,32 +673,123 @@ p {
   }
 }
 
-.statement-section {
+.vision-layout {
   display: grid;
 }
 
-.statement-section h2 {
-  max-width: 920px;
-  font-size: var(--section-title-size);
-  line-height: var(--section-title-line);
-}
-
-.principle-marquee {
+.vision-showcase {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(22px, 4vw, 74px);
-  margin-top: clamp(48px, 6vw, 82px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  min-height: clamp(520px, 42vw, 720px);
+  overflow: hidden;
+  background: #050505;
 }
 
-.principle-marquee article {
-  max-width: 360px;
+.vision-showcase::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: clamp(34px, 4vw, 58px);
+  height: clamp(34px, 4vw, 58px);
+  content: "";
+  background: #bf168f;
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
 }
 
-.principle-marquee p {
-  margin-top: 14px;
-  color: #22272b;
-  font-size: clamp(18px, 1.6vw, 23px);
-  line-height: 1.34;
+.vision-panel {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(48px, 5.6vw, 86px);
+  color: #fff;
+}
+
+.vision-panel-gradient {
+  background:
+    radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.18), transparent 24%),
+    linear-gradient(128deg, #2458ba 0%, #4727b7 47%, #8700b5 100%);
+}
+
+.vision-panel-dark {
+  background: #050505;
+}
+
+.vision-lead {
+  max-width: 580px;
+  color: #fff;
+  font-size: clamp(26px, 2.45vw, 42px);
+  font-weight: 850;
+  line-height: 1.12;
+}
+
+.vision-number {
+  display: block;
+  margin-top: clamp(46px, 5.6vw, 82px);
+  color: #fff;
+  font-size: clamp(86px, 9.4vw, 158px);
+  font-weight: 900;
+  line-height: 0.85;
+  letter-spacing: 0;
+}
+
+.vision-caption {
+  max-width: 420px;
+  margin-top: 24px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: clamp(18px, 1.55vw, 28px);
+  line-height: 1.25;
+  font-weight: 450;
+}
+
+.vision-dots {
+  display: flex;
+  gap: 18px;
+  margin-top: clamp(34px, 3.7vw, 54px);
+}
+
+.vision-dots span {
+  width: 13px;
+  height: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+}
+
+.vision-dots .is-active {
+  background: #fff;
+}
+
+.vision-button {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 20px;
+  min-width: min(100%, 360px);
+  min-height: 68px;
+  margin-top: clamp(36px, 4.3vw, 62px);
+  padding: 0 36px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  color: #fff;
+  font-size: clamp(18px, 1.5vw, 25px);
+  font-weight: 500;
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.vision-button span {
+  width: 34px;
+  height: 1px;
+  background: currentColor;
+}
+
+.vision-button:hover,
+.vision-button:focus-visible {
+  background: #fff;
+  color: #050505;
+  transform: translateY(-2px);
 }
 
 .mission-heading {
@@ -768,13 +858,6 @@ p {
   color: var(--muted);
   font-size: 17px;
   line-height: 1.43;
-}
-
-.vision-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(340px, 0.62fr);
-  gap: clamp(40px, 8vw, 128px);
-  align-items: start;
 }
 
 .principle-list article {
@@ -1405,6 +1488,15 @@ p {
     grid-template-columns: minmax(110px, 0.24fr) minmax(0, 1fr);
   }
 
+  .vision-showcase {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .vision-panel {
+    min-height: 520px;
+  }
+
   .mission-flow {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1477,7 +1569,6 @@ p {
   }
 
   .signal-panel,
-  .principle-marquee,
   .principle-list article,
   .mission-flow,
   .career-rows,
@@ -1496,6 +1587,44 @@ p {
   .signal-copy p {
     font-size: 19px;
     line-height: 1.32;
+  }
+
+  .vision-panel {
+    min-height: 470px;
+    padding: 42px 28px;
+  }
+
+  .vision-showcase::after {
+    width: 34px;
+    height: 34px;
+  }
+
+  .vision-lead {
+    font-size: clamp(26px, 9vw, 36px);
+    line-height: 1.15;
+  }
+
+  .vision-number {
+    margin-top: 54px;
+    font-size: clamp(86px, 25vw, 118px);
+  }
+
+  .vision-caption {
+    margin-top: 20px;
+    font-size: 20px;
+  }
+
+  .vision-dots {
+    margin-top: 34px;
+  }
+
+  .vision-button {
+    width: 100%;
+    min-width: 0;
+    min-height: 62px;
+    margin-top: 38px;
+    padding: 0 24px;
+    font-size: 17px;
   }
 
   .signal-visual {

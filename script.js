@@ -672,7 +672,7 @@ function initScrollReveal() {
     ".section h2",
     ".section .section-lede",
     ".founder-map",
-    ".vision-card",
+    ".vision-panel",
     ".whitepaper-copy",
     ".thesis-list li",
     ".advisory-layout > div:first-child",
