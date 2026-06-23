@@ -38,6 +38,7 @@ const titleVideoSources = [
 initHyperText();
 initMorphingText();
 initSignalVideoLoop();
+initVisionMosaicVideos();
 initTypingAnimations();
 initDottedMaps();
 initTerminalPanels();
@@ -201,6 +202,21 @@ function initSignalVideoLoop() {
   };
 
   window.setInterval(switchVideo, 3800);
+}
+
+function initVisionMosaicVideos() {
+  const videos = [...document.querySelectorAll(".vision-mosaic video")];
+  if (!videos.length || prefersReducedMotion.matches) return;
+
+  videos.forEach((video) => {
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.preload = "metadata";
+    video.play().catch(() => {
+      window.addEventListener("pointerdown", () => video.play().catch(() => {}), { once: true });
+    });
+  });
 }
 
 function initTypingAnimations() {
@@ -672,6 +688,8 @@ function initScrollReveal() {
     ".section h2",
     ".section .section-lede",
     ".founder-map",
+    ".vision-approach-copy",
+    ".vision-mosaic",
     ".vision-panel",
     ".whitepaper-copy",
     ".thesis-list li",
