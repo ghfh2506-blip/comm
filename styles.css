@@ -732,11 +732,13 @@ p {
 
 .vision-mosaic {
   position: relative;
+  align-self: end;
   justify-self: end;
   width: min(100%, 820px);
   aspect-ratio: 1.03;
   margin: 0;
   overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
 }
 
 .mosaic-tile,
