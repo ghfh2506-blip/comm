@@ -6,6 +6,7 @@ const navToggle = document.querySelector(".nav-toggle");
 const siteNav = document.querySelector(".site-nav");
 const heroCopy = document.querySelector(".hero-copy");
 const titleStage = document.querySelector(".hero-title-stage");
+const mobileTitleCanvas = document.querySelector(".hero-mobile-title-canvas");
 
 navToggle.addEventListener("click", () => {
   const isOpen = navToggle.getAttribute("aria-expanded") === "true";
@@ -48,6 +49,10 @@ if (titleStage && !mobileQuery.matches && !prefersReducedMotion.matches) {
     console.error(error);
     heroCopy.classList.remove("webgl-title-ready");
   });
+}
+
+if (mobileTitleCanvas && mobileQuery.matches && !prefersReducedMotion.matches) {
+  initMobileVideoTitle(mobileTitleCanvas, "VesperaXylos");
 }
 
 function initHyperText() {
@@ -712,6 +717,131 @@ function initScrollReveal() {
   );
 
   targets.forEach((target) => observer.observe(target));
+}
+
+function initMobileVideoTitle(canvas, text) {
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  const videos = titleVideoSources.slice(0, 6).map((source) => {
+    const video = document.createElement("video");
+    video.muted = true;
+    video.loop = true;
+    video.playsInline = true;
+    video.autoplay = true;
+    video.preload = "metadata";
+    video.src = source;
+    video.play().catch(() => {
+      window.addEventListener("pointerdown", () => video.play().catch(() => {}), { once: true });
+    });
+    return video;
+  });
+
+  const groups = ["Ves", "pera", "Xyl", "os"];
+  let width = 0;
+  let height = 0;
+  let ratio = 1;
+  let fontSize = 72;
+  let groupMetrics = [];
+  let lastFrame = 0;
+  const groupCanvas = document.createElement("canvas");
+  const groupCtx = groupCanvas.getContext("2d");
+  if (!groupCtx) return;
+
+  heroCopy.classList.add("mobile-title-ready");
+  resize();
+  window.addEventListener("resize", debounce(resize, 150));
+  requestAnimationFrame(draw);
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    ratio = Math.min(window.devicePixelRatio || 1, 1.35);
+    width = Math.max(1, Math.round(rect.width));
+    height = Math.max(1, Math.round(rect.height));
+    canvas.width = Math.round(width * ratio);
+    canvas.height = Math.round(height * ratio);
+    groupCanvas.width = canvas.width;
+    groupCanvas.height = canvas.height;
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    groupCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+    fontSize = Math.min(height * 0.9, width / 5.45);
+    ctx.font = `950 ${fontSize}px Inter, ui-sans-serif, system-ui, sans-serif`;
+    ctx.textBaseline = "middle";
+    ctx.textAlign = "left";
+    groupCtx.font = ctx.font;
+    groupCtx.textBaseline = "middle";
+    groupCtx.textAlign = "left";
+
+    let totalWidth = ctx.measureText(text).width;
+    const maxTitleWidth = width - 2;
+    if (totalWidth > maxTitleWidth) {
+      fontSize *= maxTitleWidth / totalWidth;
+      ctx.font = `950 ${fontSize}px Inter, ui-sans-serif, system-ui, sans-serif`;
+      groupCtx.font = ctx.font;
+      totalWidth = ctx.measureText(text).width;
+    }
+    let x = (width - totalWidth) / 2;
+    groupMetrics = groups.map((group) => {
+      const groupWidth = ctx.measureText(group).width;
+      const metric = { group, x, width: groupWidth };
+      x += groupWidth;
+      return metric;
+    });
+  }
+
+  function draw(time) {
+    requestAnimationFrame(draw);
+    if (time - lastFrame < 33) return;
+    lastFrame = time;
+
+    ctx.clearRect(0, 0, width, height);
+
+    groupMetrics.forEach((metric, index) => {
+      const video = videos[index % videos.length];
+      const sourceReady = video.readyState >= 2;
+      const padding = 4;
+      const drawX = Math.max(0, metric.x - padding);
+      const drawWidth = Math.min(width - drawX, metric.width + padding * 2);
+
+      groupCtx.clearRect(0, 0, width, height);
+      groupCtx.save();
+      groupCtx.beginPath();
+      groupCtx.rect(drawX, 0, drawWidth, height);
+      groupCtx.clip();
+
+      if (sourceReady) {
+        const naturalWidth = video.videoWidth || 1280;
+        const naturalHeight = video.videoHeight || 720;
+        const coverScale = Math.max(drawWidth / naturalWidth, height / naturalHeight) * 1.08;
+        const scaledWidth = naturalWidth * coverScale;
+        const scaledHeight = naturalHeight * coverScale;
+        const drift = ((time * (0.018 + index * 0.003)) % Math.max(scaledWidth - drawWidth, 1));
+        groupCtx.drawImage(
+          video,
+          drawX - drift,
+          (height - scaledHeight) / 2,
+          scaledWidth,
+          scaledHeight
+        );
+      } else {
+        const gradient = groupCtx.createLinearGradient(drawX, 0, drawX + drawWidth, height);
+        gradient.addColorStop(0, index % 2 ? "#2447d8" : "#6db735");
+        gradient.addColorStop(0.48, "#17211d");
+        gradient.addColorStop(1, index % 2 ? "#6db735" : "#2447d8");
+        groupCtx.fillStyle = gradient;
+        groupCtx.fillRect(drawX, 0, drawWidth, height);
+      }
+
+      groupCtx.globalCompositeOperation = "destination-in";
+      groupCtx.fillStyle = "#fff";
+      groupCtx.fillText(metric.group, metric.x, height * 0.54);
+      groupCtx.restore();
+      groupCtx.globalCompositeOperation = "source-over";
+
+      ctx.drawImage(groupCanvas, 0, 0, width, height);
+    });
+  }
 }
 
 async function initExtrudedTitle(container, text) {

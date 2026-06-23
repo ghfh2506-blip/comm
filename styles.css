@@ -188,6 +188,10 @@ button {
   height: 100%;
 }
 
+.hero-mobile-title-canvas {
+  display: none;
+}
+
 .hero-title-fallback {
   margin: 0;
   color: transparent;
@@ -1431,6 +1435,12 @@ p {
     display: none;
   }
 
+  .hero-mobile-title-canvas {
+    display: block;
+    width: 100%;
+    height: clamp(78px, 26vw, 118px);
+  }
+
   .hero-title-fallback,
   .webgl-title-ready .hero-title-fallback {
     position: static;
@@ -1441,6 +1451,15 @@ p {
     white-space: nowrap;
     font-size: clamp(36px, 11vw, 46px);
     line-height: 0.96;
+  }
+
+  .mobile-title-ready .hero-title-fallback {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
   }
 
   .hero-grid {
