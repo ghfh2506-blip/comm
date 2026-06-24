@@ -56,7 +56,7 @@ if (mobileTitleCanvas && mobileQuery.matches && !prefersReducedMotion.matches) {
 }
 
 function initHyperText() {
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789∑ΔλΞ";
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\u2211\u0394\u03bb\u039e";
   const targets = [...document.querySelectorAll("[data-hyper-text]")];
   if (!targets.length || prefersReducedMotion.matches) return;
 
@@ -114,13 +114,13 @@ function initMorphingText() {
   if (!current || !next) return;
 
   const texts = [
-    "∑AI V4 pro",
+    "\u2211AI V4 Pro",
     "Capital Signals",
-    "7 Sectors",
-    "Market Memory",
-    "Thesis Network",
-    "Advisory Mandates",
-    "Memo Studio",
+    "Strategy API",
+    "Risk Engine",
+    "AGI Roadmap",
+    "Portfolio Logic",
+    "Model Governance",
   ];
   let index = 0;
   let isMorphing = false;
