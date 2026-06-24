@@ -996,6 +996,7 @@ async function initExtrudedTitle(container, text) {
       faceMaterials.push(faceMaterial);
       const letterSideMaterial = sideMaterial.clone();
       const mesh = new THREE.Mesh(geometry, [faceMaterial, letterSideMaterial]);
+      mesh.renderOrder = 1;
       mesh.userData.letterGroup = null;
       mesh.castShadow = false;
       mesh.receiveShadow = false;
@@ -1207,7 +1208,7 @@ async function initExtrudedTitle(container, text) {
       const axis = letter.userData.axis;
       const current = axis === "x" ? letter.rotation.x : letter.rotation.y;
       const delta = letter.userData.target - current;
-      letter.userData.velocity += delta * 0.011;
+      letter.userData.velocity += delta * 0.006;
       letter.userData.velocity *= 0.9;
 
       if (axis === "x") {
@@ -1217,6 +1218,11 @@ async function initExtrudedTitle(container, text) {
         letter.rotation.y += letter.userData.velocity;
         letter.rotation.x += (0 - letter.rotation.x) * 0.08;
       }
+
+      const activeRotation = axis === "x" ? letter.rotation.x : letter.rotation.y;
+      const shadowStrength = Math.min(Math.abs(Math.sin(activeRotation)), 1);
+      const shade = Math.round(150 - shadowStrength * 58);
+      letter.userData.sideMaterial.color.setRGB(shade / 255, (shade + 4) / 255, (shade + 4) / 255);
     });
 
     renderer.render(scene, camera);
