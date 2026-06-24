@@ -1218,7 +1218,7 @@ async function initExtrudedTitle(container, text) {
       const cueIndex = cueLetters[idleCueStep % cueLetters.length];
       const cueLetter = letters[cueIndex];
       if (cueLetter) {
-        cueLetter.userData.idleTarget = cueIndex === 0 ? 0.52 : 0.44;
+        cueLetter.userData.idleTarget = cueIndex === 0 ? 0.78 : 0.66;
         idleCueStep += 1;
       }
       nextIdleCue = time + 6200;
