@@ -883,7 +883,8 @@ async function initExtrudedTitle(container, text) {
   let hovered = null;
   let width = 0;
   let height = 0;
-  let nextIdleCue = 3200;
+  let nextIdleCue = 2000;
+  let idleCueStep = 0;
 
   const textureCanvas = document.createElement("canvas");
   textureCanvas.width = 1024;
@@ -1186,7 +1187,9 @@ async function initExtrudedTitle(container, text) {
     if (hovered) hovered.userData.target = 0;
     hovered = group;
     if (hovered) hovered.userData.target = Math.PI;
-    if (hovered) hovered.userData.idleTarget = 0;
+    if (hovered) letters.forEach((letter) => {
+      letter.userData.idleTarget = 0;
+    });
   }
 
   function animate(time) {
@@ -1205,9 +1208,19 @@ async function initExtrudedTitle(container, text) {
       drawDynamicTexture(time);
     }
 
-    const firstLetter = letters[0];
-    if (!hovered && firstLetter && time > nextIdleCue) {
-      firstLetter.userData.idleTarget = 0.34;
+    const cueIsActive = letters.some((letter) => (
+      Math.abs(letter.userData.idleTarget || 0) > 0
+      || Math.abs(letter.rotation.x) > 0.05
+      || Math.abs(letter.rotation.y) > 0.05
+    ));
+    if (!hovered && !cueIsActive && time > nextIdleCue) {
+      const cueLetters = [0, 3];
+      const cueIndex = cueLetters[idleCueStep % cueLetters.length];
+      const cueLetter = letters[cueIndex];
+      if (cueLetter) {
+        cueLetter.userData.idleTarget = cueIndex === 0 ? 0.52 : 0.44;
+        idleCueStep += 1;
+      }
       nextIdleCue = time + 6200;
     }
 
