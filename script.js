@@ -883,6 +883,7 @@ async function initExtrudedTitle(container, text) {
   let hovered = null;
   let width = 0;
   let height = 0;
+  let nextIdleCue = 3200;
 
   const textureCanvas = document.createElement("canvas");
   textureCanvas.width = 1024;
@@ -1006,6 +1007,7 @@ async function initExtrudedTitle(container, text) {
       group.position.x = centerX;
       group.userData.axis = index % 2 === 0 ? "y" : "x";
       group.userData.target = 0;
+      group.userData.idleTarget = 0;
       group.userData.velocity = 0;
       group.userData.mesh = mesh;
       group.userData.sideMaterial = letterSideMaterial;
@@ -1184,6 +1186,7 @@ async function initExtrudedTitle(container, text) {
     if (hovered) hovered.userData.target = 0;
     hovered = group;
     if (hovered) hovered.userData.target = Math.PI;
+    if (hovered) hovered.userData.idleTarget = 0;
   }
 
   function animate(time) {
@@ -1202,12 +1205,19 @@ async function initExtrudedTitle(container, text) {
       drawDynamicTexture(time);
     }
 
+    const firstLetter = letters[0];
+    if (!hovered && firstLetter && time > nextIdleCue) {
+      firstLetter.userData.idleTarget = 0.34;
+      nextIdleCue = time + 6200;
+    }
+
     letters.forEach((letter) => {
       const material = letter.userData.mesh.material[0];
       material.uniforms.time.value = time * 0.001;
       const axis = letter.userData.axis;
       const current = axis === "x" ? letter.rotation.x : letter.rotation.y;
-      const delta = letter.userData.target - current;
+      const activeTarget = letter.userData.target || letter.userData.idleTarget || 0;
+      const delta = activeTarget - current;
       letter.userData.velocity += delta * 0.006;
       letter.userData.velocity *= 0.9;
 
@@ -1220,6 +1230,9 @@ async function initExtrudedTitle(container, text) {
       }
 
       const activeRotation = axis === "x" ? letter.rotation.x : letter.rotation.y;
+      if (letter.userData.idleTarget && Math.abs(activeRotation - letter.userData.idleTarget) < 0.04) {
+        letter.userData.idleTarget = 0;
+      }
       const shadowStrength = Math.min(Math.abs(Math.sin(activeRotation)), 1);
       const shade = Math.round(150 - shadowStrength * 58);
       letter.userData.sideMaterial.color.setRGB(shade / 255, (shade + 4) / 255, (shade + 4) / 255);
