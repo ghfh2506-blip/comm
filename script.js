@@ -44,10 +44,15 @@ initDottedMaps();
 initTerminalPanels();
 initScrollReveal();
 
+if (prefersReducedMotion.matches) {
+  heroCopy.classList.add("title-fallback-visible");
+}
+
 if (titleStage && !mobileQuery.matches && !prefersReducedMotion.matches) {
   initExtrudedTitle(titleStage, "VesperaXylos").catch((error) => {
     console.error(error);
     heroCopy.classList.remove("webgl-title-ready");
+    heroCopy.classList.add("title-fallback-visible");
   });
 }
 
@@ -721,7 +726,10 @@ function initScrollReveal() {
 
 function initMobileVideoTitle(canvas, text) {
   const ctx = canvas.getContext("2d");
-  if (!ctx) return;
+  if (!ctx) {
+    heroCopy.classList.add("title-fallback-visible");
+    return;
+  }
 
   const videos = titleVideoSources.slice(0, 6).map((source) => {
     const video = document.createElement("video");
@@ -746,7 +754,10 @@ function initMobileVideoTitle(canvas, text) {
   let lastFrame = 0;
   const groupCanvas = document.createElement("canvas");
   const groupCtx = groupCanvas.getContext("2d");
-  if (!groupCtx) return;
+  if (!groupCtx) {
+    heroCopy.classList.add("title-fallback-visible");
+    return;
+  }
 
   heroCopy.classList.add("mobile-title-ready");
   resize();

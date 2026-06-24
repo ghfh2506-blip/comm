@@ -207,6 +207,7 @@ button {
   background-clip: text;
 }
 
+.js .hero-title-fallback,
 .webgl-title-ready .hero-title-fallback {
   position: absolute;
   width: 1px;
@@ -216,11 +217,20 @@ button {
   white-space: nowrap;
 }
 
+.js .title-fallback-visible .hero-title-fallback {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: nowrap;
+}
+
 .hero-summary {
-  max-width: 760px;
-  margin: clamp(26px, 4vw, 52px) auto 0;
+  max-width: 700px;
+  margin: clamp(24px, 3.4vw, 44px) auto 0;
   color: #1a1e21;
-  font-size: clamp(18px, 1.8vw, 28px);
+  font-size: clamp(18px, 1.55vw, 24px);
   line-height: 1.24;
   font-weight: 700;
   text-align: center;
@@ -1441,8 +1451,7 @@ p {
     height: clamp(78px, 26vw, 118px);
   }
 
-  .hero-title-fallback,
-  .webgl-title-ready .hero-title-fallback {
+  .title-fallback-visible .hero-title-fallback {
     position: static;
     width: auto;
     height: auto;
@@ -1453,6 +1462,7 @@ p {
     line-height: 0.96;
   }
 
+  .js .hero-title-fallback,
   .mobile-title-ready .hero-title-fallback {
     position: absolute;
     width: 1px;
@@ -1460,6 +1470,17 @@ p {
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
+  }
+
+  .js .title-fallback-visible .hero-title-fallback {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: nowrap;
+    font-size: clamp(36px, 11vw, 46px);
+    line-height: 0.96;
   }
 
   .hero-grid {
