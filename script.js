@@ -900,8 +900,10 @@ async function initExtrudedTitle(container, text) {
 
   const sideMaterial = new THREE.MeshBasicMaterial({
     color: "#969b9b",
-    transparent: true,
-    opacity: 0.08,
+    transparent: false,
+    opacity: 1,
+    depthTest: true,
+    depthWrite: true,
   });
 
   build();
@@ -1147,7 +1149,7 @@ async function initExtrudedTitle(container, text) {
           vec3 nextVideo = texture2D(nextTextureMap, nextUv).rgb;
           float softReveal = smoothstep(0.0, 1.0, reveal) * smoothstep(0.0, 0.92, transition);
           vec3 movingVideo = mix(video, nextVideo, softReveal);
-          float front = smoothstep(0.15, 0.95, abs(vNormal.z));
+          float front = smoothstep(0.45, 0.96, max(vNormal.z, 0.0));
           vec3 side = mix(vec3(0.05, 0.055, 0.055), vec3(0.72, 0.74, 0.72), max(vNormal.x * 0.5 + 0.5, 0.0));
           vec3 color = mix(side, movingVideo, front);
           gl_FragColor = vec4(color, 1.0);
@@ -1204,9 +1206,6 @@ async function initExtrudedTitle(container, text) {
         letter.rotation.y += letter.userData.velocity;
         letter.rotation.x += (0 - letter.rotation.x) * 0.08;
       }
-
-      const activeRotation = axis === "x" ? letter.rotation.x : letter.rotation.y;
-      letter.userData.sideMaterial.opacity = 0.08 + Math.abs(Math.sin(activeRotation)) * 0.82;
     });
 
     renderer.render(scene, camera);
