@@ -906,45 +906,161 @@ p {
   line-height: 1.4;
 }
 
-.capability-grid {
+.capability-engine {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0;
-  border-top: 1px solid rgba(5, 5, 5, 0.16);
-  border-bottom: 1px solid rgba(5, 5, 5, 0.16);
+  grid-template-columns: minmax(320px, 0.7fr) minmax(0, 1.3fr);
+  gap: clamp(18px, 2.4vw, 30px);
 }
 
-.capability-grid article {
-  min-height: 260px;
-  padding: clamp(22px, 3vw, 34px) clamp(18px, 2.4vw, 30px) clamp(24px, 3vw, 36px);
-  border-right: 1px solid rgba(5, 5, 5, 0.12);
-  background:
-    linear-gradient(180deg, rgba(36, 71, 216, 0.045), transparent 54%),
-    #fff;
+.engine-core,
+.engine-flow article {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 28px;
+  background: #172638;
+  color: #fff;
 }
 
-.capability-grid article:last-child {
-  border-right: 0;
+.engine-core {
+  min-height: 440px;
+  padding: clamp(30px, 3.4vw, 48px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.capability-grid span {
-  color: var(--muted);
-  font-size: 12px;
+.engine-core::before {
+  position: absolute;
+  right: -0.12em;
+  bottom: -0.26em;
+  z-index: -1;
+  color: rgba(255, 255, 255, 0.055);
+  font-size: clamp(180px, 23vw, 360px);
+  font-weight: 900;
+  line-height: 1;
+  content: "∑";
+}
+
+.engine-core::after,
+.engine-flow article::after {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-top: 34px;
+  border-radius: 999px;
+  background: #3fd576;
+  color: #04111e;
+  font-size: 14px;
   font-weight: 850;
+  content: "Explore capability";
 }
 
-.capability-grid h3 {
-  max-width: 220px;
-  margin-top: clamp(32px, 5vw, 70px);
-  font-size: clamp(22px, 2vw, 31px);
+.engine-core span {
+  max-width: 260px;
+  font-size: clamp(54px, 5.6vw, 86px);
+  font-weight: 900;
+  line-height: 0.9;
+}
+
+.engine-core strong {
+  display: block;
+  max-width: 320px;
+  margin-top: auto;
+  font-size: clamp(26px, 2.4vw, 36px);
   line-height: 1;
 }
 
-.capability-grid p {
-  margin-top: 18px;
-  color: var(--muted);
-  font-size: 16px;
+.engine-core p {
+  max-width: 360px;
+  margin-top: 22px;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 18px;
   line-height: 1.42;
+}
+
+.engine-flow {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(18px, 2.4vw, 30px);
+}
+
+.engine-flow article {
+  min-height: 245px;
+  padding: clamp(24px, 2.5vw, 36px);
+  display: flex;
+  flex-direction: column;
+}
+
+.engine-flow article:nth-child(1),
+.engine-flow article:nth-child(2) {
+  grid-column: span 3;
+}
+
+.engine-flow article:nth-child(n + 3) {
+  grid-column: span 2;
+}
+
+.engine-flow article::before {
+  width: 64px;
+  height: 64px;
+  margin-bottom: clamp(22px, 2.4vw, 34px);
+  border: 2px solid rgba(255, 255, 255, 0.86);
+  border-radius: 50%;
+  background:
+    linear-gradient(90deg, transparent 46%, rgba(255, 255, 255, 0.86) 47% 53%, transparent 54%),
+    linear-gradient(0deg, transparent 46%, rgba(255, 255, 255, 0.86) 47% 53%, transparent 54%);
+  content: "";
+}
+
+.engine-flow article:nth-child(2)::before {
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, transparent 0 42%, rgba(255, 255, 255, 0.86) 43% 48%, transparent 49%),
+    linear-gradient(45deg, transparent 0 42%, rgba(255, 255, 255, 0.86) 43% 48%, transparent 49%);
+}
+
+.engine-flow article:nth-child(3)::before {
+  border-radius: 12px;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.86) 0 2px, transparent 2px 14px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.36) 0 2px, transparent 2px 14px);
+}
+
+.engine-flow article:nth-child(4)::before {
+  border-radius: 8px;
+  background:
+    linear-gradient(90deg, transparent 0 28%, rgba(255, 255, 255, 0.86) 29% 34%, transparent 35% 64%, rgba(255, 255, 255, 0.86) 65% 70%, transparent 71%),
+    linear-gradient(0deg, transparent 0 28%, rgba(255, 255, 255, 0.86) 29% 34%, transparent 35% 64%, rgba(255, 255, 255, 0.86) 65% 70%, transparent 71%);
+}
+
+.engine-flow article:nth-child(5)::before {
+  border-radius: 50% 50% 12px 12px;
+  background:
+    radial-gradient(circle at 50% 34%, rgba(255, 255, 255, 0.86) 0 9px, transparent 10px),
+    linear-gradient(90deg, transparent 25%, rgba(255, 255, 255, 0.86) 26% 31%, transparent 32% 68%, rgba(255, 255, 255, 0.86) 69% 74%, transparent 75%);
+}
+
+.engine-flow span {
+  color: #3fd576;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.engine-flow h3 {
+  max-width: 360px;
+  margin-top: 18px;
+  font-size: clamp(23px, 1.85vw, 31px);
+  line-height: 1;
+}
+
+.engine-flow p {
+  max-width: 430px;
+  margin-top: 14px;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 16px;
+  line-height: 1.46;
 }
 
 .whitepaper-layout {
@@ -1645,23 +1761,18 @@ p {
     gap: 34px;
   }
 
-  .capability-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .capability-engine {
+    grid-template-columns: 1fr;
   }
 
-  .capability-grid article {
-    min-height: 220px;
-    border-right: 1px solid rgba(5, 5, 5, 0.12);
-    border-bottom: 1px solid rgba(5, 5, 5, 0.12);
+  .engine-core {
+    min-height: 360px;
   }
 
-  .capability-grid article:nth-child(2n),
-  .capability-grid article:last-child {
-    border-right: 0;
-  }
-
-  .capability-grid article:nth-last-child(-n + 1) {
-    border-bottom: 0;
+  .engine-flow article:nth-child(1),
+  .engine-flow article:nth-child(2),
+  .engine-flow article:nth-child(n + 3) {
+    grid-column: span 3;
   }
 
   .timeline-track {
@@ -1862,24 +1973,43 @@ p {
     gap: 18px;
   }
 
-  .capability-grid {
+  .engine-core,
+  .engine-flow article {
+    border-radius: 18px;
+  }
+
+  .engine-core {
+    min-height: 330px;
+    padding: 28px;
+  }
+
+  .engine-core span {
+    font-size: clamp(42px, 14vw, 58px);
+  }
+
+  .engine-flow {
     grid-template-columns: 1fr;
-    border-bottom: 0;
   }
 
-  .capability-grid article,
-  .capability-grid article:nth-child(2n),
-  .capability-grid article:last-child {
+  .engine-flow article:nth-child(1),
+  .engine-flow article:nth-child(2),
+  .engine-flow article:nth-child(n + 3) {
+    grid-column: auto;
+  }
+
+  .engine-flow article {
     min-height: auto;
-    padding: 20px 0 22px;
-    border-right: 0;
-    border-bottom: 1px solid rgba(5, 5, 5, 0.14);
-    background: #fff;
+    padding: 26px;
   }
 
-  .capability-grid h3 {
-    max-width: none;
-    margin-top: 28px;
+  .engine-flow article::before {
+    width: 58px;
+    height: 58px;
+    margin-bottom: 28px;
+  }
+
+  .engine-flow p {
+    font-size: 16px;
   }
 
   .whitepaper-copy h2 {
