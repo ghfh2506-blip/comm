@@ -433,6 +433,7 @@ button {
 .mission-layout,
 .whitepaper-layout,
 .advisory-layout,
+.founder-profile-layout,
 .downloads-layout {
   position: relative;
 }
@@ -630,6 +631,82 @@ p {
   color: var(--muted);
   font-size: 13px;
   font-weight: 750;
+}
+
+.founder-profile-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(420px, 0.8fr);
+  gap: clamp(42px, 8vw, 118px);
+  align-items: center;
+}
+
+.founder-profile-copy > p:not(.eyebrow) {
+  max-width: 780px;
+  margin-top: 24px;
+  color: #24292d;
+  font-size: clamp(18px, 1.55vw, 23px);
+  line-height: 1.42;
+}
+
+.founder-profile-copy h2 {
+  max-width: 980px;
+}
+
+.founder-credentials {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: clamp(32px, 4vw, 56px);
+  background: rgba(5, 5, 5, 0.12);
+}
+
+.founder-credentials article {
+  min-height: 150px;
+  padding: clamp(18px, 2.2vw, 28px);
+  background: #fff;
+}
+
+.founder-credentials span {
+  display: block;
+  color: var(--ink);
+  font-size: clamp(22px, 2vw, 31px);
+  font-weight: 850;
+  line-height: 1;
+}
+
+.founder-credentials p {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.42;
+}
+
+.founder-portrait {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--quiet);
+}
+
+.founder-portrait img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.08;
+  object-fit: cover;
+  object-position: 50% 46%;
+}
+
+.founder-portrait figcaption {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  padding: 8px 11px;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 800;
+  backdrop-filter: blur(12px);
 }
 
 .role-stack {
@@ -1387,6 +1464,7 @@ p {
   .editorial-layout,
   .split-section,
   .founder-layout,
+  .founder-profile-layout,
   .advisory-layout,
   .careers-layout,
   .career-heading,
@@ -1614,6 +1692,34 @@ p {
   .role-stack h3,
   .role-stack p {
     grid-column: auto;
+  }
+
+  .founder-profile-layout {
+    gap: 34px;
+  }
+
+  .founder-profile-copy > p:not(.eyebrow) {
+    margin-top: 18px;
+    font-size: 18px;
+    line-height: 1.4;
+  }
+
+  .founder-credentials {
+    grid-template-columns: 1fr;
+    margin-top: 28px;
+  }
+
+  .founder-credentials article {
+    min-height: auto;
+    padding: 18px 0;
+  }
+
+  .founder-portrait {
+    border-radius: 7px;
+  }
+
+  .founder-portrait img {
+    aspect-ratio: 1.18;
   }
 
   .terminal-body {
