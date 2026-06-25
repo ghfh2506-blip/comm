@@ -432,6 +432,7 @@ button {
 .vision-layout,
 .mission-layout,
 .whitepaper-layout,
+.capabilities-layout,
 .advisory-layout,
 .founder-profile-layout,
 .downloads-layout {
@@ -879,6 +880,71 @@ p {
   min-height: 230px;
   padding: 24px 0 0;
   border-top: 1px solid rgba(5, 5, 5, 0.16);
+}
+
+.capabilities-layout {
+  display: grid;
+  gap: clamp(28px, 4.4vw, 64px);
+}
+
+.capabilities-copy {
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(320px, 0.56fr);
+  gap: clamp(34px, 7vw, 100px);
+  align-items: end;
+}
+
+.capabilities-copy h2,
+.capabilities-copy p {
+  min-width: 0;
+}
+
+.capabilities-copy p {
+  max-width: 610px;
+  color: #24292d;
+  font-size: clamp(18px, 1.55vw, 23px);
+  line-height: 1.4;
+}
+
+.capability-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid rgba(5, 5, 5, 0.16);
+  border-bottom: 1px solid rgba(5, 5, 5, 0.16);
+}
+
+.capability-grid article {
+  min-height: 260px;
+  padding: clamp(22px, 3vw, 34px) clamp(18px, 2.4vw, 30px) clamp(24px, 3vw, 36px);
+  border-right: 1px solid rgba(5, 5, 5, 0.12);
+  background:
+    linear-gradient(180deg, rgba(36, 71, 216, 0.045), transparent 54%),
+    #fff;
+}
+
+.capability-grid article:last-child {
+  border-right: 0;
+}
+
+.capability-grid span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.capability-grid h3 {
+  max-width: 220px;
+  margin-top: clamp(32px, 5vw, 70px);
+  font-size: clamp(22px, 2vw, 31px);
+  line-height: 1;
+}
+
+.capability-grid p {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.42;
 }
 
 .whitepaper-layout {
@@ -1561,6 +1627,7 @@ p {
   }
 
   .two-column,
+  .capabilities-copy,
   .whitepaper-layout,
   .downloads-layout,
   .editorial-layout,
@@ -1576,6 +1643,25 @@ p {
   }
   .whitepaper-layout {
     gap: 34px;
+  }
+
+  .capability-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .capability-grid article {
+    min-height: 220px;
+    border-right: 1px solid rgba(5, 5, 5, 0.12);
+    border-bottom: 1px solid rgba(5, 5, 5, 0.12);
+  }
+
+  .capability-grid article:nth-child(2n),
+  .capability-grid article:last-child {
+    border-right: 0;
+  }
+
+  .capability-grid article:nth-last-child(-n + 1) {
+    border-bottom: 0;
   }
 
   .timeline-track {
@@ -1747,6 +1833,7 @@ p {
 
   .section-lede p,
   .mission-heading p,
+  .capabilities-copy p,
   .whitepaper-copy p,
   .career-heading p {
     margin-top: 18px;
@@ -1769,6 +1856,30 @@ p {
 
   .whitepaper-layout {
     gap: 26px;
+  }
+
+  .capabilities-copy {
+    gap: 18px;
+  }
+
+  .capability-grid {
+    grid-template-columns: 1fr;
+    border-bottom: 0;
+  }
+
+  .capability-grid article,
+  .capability-grid article:nth-child(2n),
+  .capability-grid article:last-child {
+    min-height: auto;
+    padding: 20px 0 22px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(5, 5, 5, 0.14);
+    background: #fff;
+  }
+
+  .capability-grid h3 {
+    max-width: none;
+    margin-top: 28px;
   }
 
   .whitepaper-copy h2 {

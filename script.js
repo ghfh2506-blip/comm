@@ -683,6 +683,8 @@ function initScrollReveal() {
     ".section .section-lede",
     ".founder-map",
     ".principle-marquee article",
+    ".capabilities-copy",
+    ".capability-grid article",
     ".whitepaper-copy",
     ".paper-points button",
     ".timeline-heading",
