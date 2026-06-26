@@ -50,21 +50,37 @@
     });
     observer.observe(hero, { attributes: true, attributeFilter: ["class"] });
 
+    const fallbackStart = performance.now();
+    const maxPrimaryWait = window.location.protocol === "file:" ? 0 : 2600;
+
     const tryStart = () => {
       if (started || hasPrimaryTitle()) return;
 
-      if (isPrimaryLoading()) {
-        window.setTimeout(tryStart, 900);
+      const primaryLoading = isPrimaryLoading();
+      const waited = performance.now() - fallbackStart;
+
+      if (primaryLoading && waited < maxPrimaryWait) {
+        window.setTimeout(tryStart, 500);
         return;
       }
 
       started = true;
+      if (primaryLoading) {
+        hero.classList.remove("webgl-title-loading", "mobile-title-loading");
+      }
+
+      const stop = renderVideoText(canvas);
+      if (!stop) {
+        hero.classList.add("title-fallback-visible");
+        return;
+      }
+
       hero.classList.remove("title-fallback-visible");
       hero.classList.add("local-title-ready");
-      cleanup = renderVideoText(canvas);
+      cleanup = stop;
     };
 
-    window.setTimeout(tryStart, window.location.protocol === "file:" ? 220 : 1500);
+    window.setTimeout(tryStart, window.location.protocol === "file:" ? 220 : 900);
   });
 
   function renderVideoText(canvas) {
