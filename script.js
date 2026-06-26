@@ -42,7 +42,6 @@ initSignalVideoLoop();
 initTypingAnimations();
 initDottedMaps();
 initTerminalPanels();
-initTimelineInteractions();
 initScrollReveal();
 
 if (prefersReducedMotion.matches) {
@@ -50,16 +49,14 @@ if (prefersReducedMotion.matches) {
 }
 
 if (titleStage && !mobileQuery.matches && !prefersReducedMotion.matches) {
-  heroCopy.classList.add("webgl-title-loading");
   initExtrudedTitle(titleStage, "VesperaXylos").catch((error) => {
     console.error(error);
-    heroCopy.classList.remove("webgl-title-loading", "webgl-title-ready");
+    heroCopy.classList.remove("webgl-title-ready");
     heroCopy.classList.add("title-fallback-visible");
   });
 }
 
 if (mobileTitleCanvas && mobileQuery.matches && !prefersReducedMotion.matches) {
-  heroCopy.classList.add("mobile-title-loading");
   initMobileVideoTitle(mobileTitleCanvas, "VesperaXylos");
 }
 
@@ -675,37 +672,6 @@ function typeTerminalLine(target, text, done, speed = 22, schedule = window.setT
   type();
 }
 
-function initTimelineInteractions() {
-  const tracks = [...document.querySelectorAll(".timeline-track")];
-  if (!tracks.length) return;
-
-  tracks.forEach((track) => {
-    const items = [...track.querySelectorAll("article")];
-    if (!items.length) return;
-
-    const clearActive = () => {
-      track.classList.remove("is-interacting");
-      items.forEach((entry) => entry.classList.remove("is-active"));
-    };
-
-    items.forEach((item) => {
-      const label = item.querySelector("h3")?.textContent?.trim();
-      if (label) item.setAttribute("aria-label", `Timeline milestone: ${label}`);
-      item.tabIndex = 0;
-
-      const activate = () => {
-        track.classList.add("is-interacting");
-        items.forEach((entry) => entry.classList.toggle("is-active", entry === item));
-      };
-
-      item.addEventListener("mouseenter", activate);
-      item.addEventListener("focus", activate);
-      item.addEventListener("mouseleave", clearActive);
-      item.addEventListener("blur", clearActive);
-    });
-  });
-}
-
 function initScrollReveal() {
   if (prefersReducedMotion.matches) return;
 
@@ -769,7 +735,6 @@ function initScrollReveal() {
 function initMobileVideoTitle(canvas, text) {
   const ctx = canvas.getContext("2d");
   if (!ctx) {
-    heroCopy.classList.remove("mobile-title-loading");
     heroCopy.classList.add("title-fallback-visible");
     return;
   }
@@ -798,12 +763,10 @@ function initMobileVideoTitle(canvas, text) {
   const groupCanvas = document.createElement("canvas");
   const groupCtx = groupCanvas.getContext("2d");
   if (!groupCtx) {
-    heroCopy.classList.remove("mobile-title-loading");
     heroCopy.classList.add("title-fallback-visible");
     return;
   }
 
-  heroCopy.classList.remove("mobile-title-loading");
   heroCopy.classList.add("mobile-title-ready");
   resize();
   window.addEventListener("resize", debounce(resize, 150));
@@ -918,7 +881,6 @@ async function initExtrudedTitle(container, text) {
     "https://unpkg.com/three@0.165.0/examples/fonts/droid/droid_sans_bold.typeface.json"
   );
 
-  heroCopy.classList.remove("webgl-title-loading");
   heroCopy.classList.add("webgl-title-ready");
 
   const raycaster = new THREE.Raycaster();
