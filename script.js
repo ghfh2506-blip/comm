@@ -42,6 +42,7 @@ initSignalVideoLoop();
 initTypingAnimations();
 initDottedMaps();
 initTerminalPanels();
+initTimelineInteractions();
 initScrollReveal();
 
 if (prefersReducedMotion.matches) {
@@ -730,6 +731,41 @@ function initScrollReveal() {
   );
 
   targets.forEach((target) => observer.observe(target));
+}
+
+function initTimelineInteractions() {
+  const track = document.querySelector(".timeline-track");
+  if (!track) return;
+
+  const items = [...track.querySelectorAll("article")];
+  if (!items.length) return;
+
+  const setActive = (activeIndex) => {
+    const boundedIndex = Math.max(0, Math.min(activeIndex, items.length - 1));
+    const progress = items.length > 1 ? boundedIndex / (items.length - 1) : 0;
+    track.style.setProperty("--timeline-progress", `${progress * 100}%`);
+    track.dataset.activeIndex = String(boundedIndex);
+
+    items.forEach((item, index) => {
+      const isActive = index === boundedIndex;
+      item.classList.toggle("is-active", isActive);
+      item.setAttribute("aria-current", isActive ? "step" : "false");
+    });
+  };
+
+  items.forEach((item, index) => {
+    item.tabIndex = 0;
+    item.addEventListener("mouseenter", () => setActive(index));
+    item.addEventListener("focus", () => setActive(index));
+    item.addEventListener("click", () => setActive(index));
+    item.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      setActive(index);
+    });
+  });
+
+  setActive(2);
 }
 
 function initMobileVideoTitle(canvas, text) {

@@ -1260,6 +1260,7 @@ p {
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: clamp(16px, 2.4vw, 30px);
   padding-top: 28px;
+  --timeline-progress: 50%;
 }
 
 .timeline-track::before {
@@ -1272,14 +1273,33 @@ p {
   content: "";
 }
 
+.timeline-track::after {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  width: var(--timeline-progress);
+  height: 2px;
+  background: linear-gradient(90deg, var(--ink), var(--blue), var(--green));
+  transform: translateY(-0.5px);
+  transition: width 520ms cubic-bezier(0.22, 1, 0.36, 1);
+  content: "";
+}
+
 .timeline-track article {
   position: relative;
   min-height: 210px;
   padding: 24px 0 0;
+  border-radius: 8px;
+  outline: none;
+  transition:
+    color 220ms ease,
+    opacity 220ms ease,
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .timeline-track article::before {
   position: absolute;
+  z-index: 1;
   top: -28px;
   left: 0;
   width: 13px;
@@ -1288,6 +1308,26 @@ p {
   border-radius: 50%;
   background: var(--ink);
   box-shadow: 0 0 0 1px rgba(5, 5, 5, 0.2);
+  transition:
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 260ms ease,
+    background 260ms ease;
+  content: "";
+}
+
+.timeline-track article::after {
+  position: absolute;
+  top: -35px;
+  left: -7px;
+  width: 27px;
+  height: 27px;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0.68);
+  transition:
+    opacity 260ms ease,
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
   content: "";
 }
 
@@ -1299,6 +1339,36 @@ p {
 .timeline-track article:nth-child(3)::before,
 .timeline-track article:nth-child(5)::before {
   background: var(--green);
+}
+
+.timeline-track article:hover,
+.timeline-track article:focus-visible,
+.timeline-track article.is-active {
+  opacity: 1;
+  transform: translateY(-8px);
+}
+
+.timeline-track article:hover::before,
+.timeline-track article:focus-visible::before,
+.timeline-track article.is-active::before {
+  transform: scale(1.28);
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.96),
+    0 0 0 10px rgba(36, 71, 216, 0.13),
+    0 12px 26px rgba(5, 5, 5, 0.18);
+}
+
+.timeline-track article:hover::after,
+.timeline-track article:focus-visible::after,
+.timeline-track article.is-active::after {
+  opacity: 0.42;
+  transform: scale(1);
+  animation: timeline-pulse 1.9s ease-out infinite;
+}
+
+.timeline-track article:focus-visible {
+  outline: 2px solid rgba(36, 71, 216, 0.34);
+  outline-offset: 8px;
 }
 
 .timeline-track span {
@@ -1316,6 +1386,7 @@ p {
   font-size: clamp(24px, 2.3vw, 34px);
   line-height: 1;
   overflow-wrap: anywhere;
+  transition: color 220ms ease;
 }
 
 .timeline-track p {
@@ -1324,6 +1395,31 @@ p {
   color: var(--muted);
   font-size: 16px;
   line-height: 1.42;
+  transition: color 220ms ease;
+}
+
+.timeline-track article:hover h3,
+.timeline-track article:focus-visible h3,
+.timeline-track article.is-active h3 {
+  color: var(--blue);
+}
+
+.timeline-track article:hover p,
+.timeline-track article:focus-visible p,
+.timeline-track article.is-active p {
+  color: #24292d;
+}
+
+@keyframes timeline-pulse {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.74);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.7);
+  }
 }
 
 .careers-layout {
@@ -1732,6 +1828,10 @@ p {
   }
 
   .timeline-track::before {
+    display: none;
+  }
+
+  .timeline-track::after {
     display: none;
   }
 
